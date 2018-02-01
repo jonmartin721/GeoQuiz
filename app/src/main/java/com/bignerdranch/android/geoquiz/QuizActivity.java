@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,8 @@ public class QuizActivity extends AppCompatActivity {
 
         Button mTrueButton;
         Button mFalseButton;
-        Button mNextButton;
-        Button mPrevButton;
+        ImageButton mNextButton;
+        ImageButton mPrevButton;
 
 
         super.onCreate(savedInstanceState);

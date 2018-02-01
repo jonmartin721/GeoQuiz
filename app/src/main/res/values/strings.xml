@@ -12,8 +12,8 @@
     <!--Buttons-->
     <string name="true_button">True</string>
     <string name="false_button">False</string>
-    <string name="next_button">Next</string>
-    <string name="prev_button">Prev</string>
+    <string name="next_button_context">Next question button</string>
+    <string name="prev_button_context">Last question button</string>
 
     <!--Toasts-->
     <string name="correct_toast">Correct!</string>
