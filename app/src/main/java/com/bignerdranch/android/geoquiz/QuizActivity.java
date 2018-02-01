@@ -8,11 +8,14 @@ import android.widget.Toast;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private Button mTrueButton;
-    private Button mFalseButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Button mTrueButton;
+        Button mFalseButton;
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
