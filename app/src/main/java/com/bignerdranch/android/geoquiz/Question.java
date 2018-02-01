@@ -2,15 +2,15 @@ package com.bignerdranch.android.geoquiz;
 
 public class Question {
 
-private int mTextResId;
-private boolean mAnswerTrue;
+    private int mTextResId;
+    private boolean mAnswerTrue;
 
-Question(int textResId, boolean answerTrue) {
+    Question(int textResId, boolean answerTrue) {
 
-    mTextResId = textResId;
-    mAnswerTrue = answerTrue;
+        mTextResId = textResId;
+        mAnswerTrue = answerTrue;
 
-}
+    }
 
     int getTextResId() {
         return mTextResId;

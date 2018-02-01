@@ -27,6 +27,7 @@ public class QuizActivity extends AppCompatActivity {
         Button mTrueButton;
         Button mFalseButton;
         Button mNextButton;
+        Button mPrevButton;
 
 
         super.onCreate(savedInstanceState);
@@ -68,6 +69,19 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        mPrevButton = findViewById(R.id.prev_button);
+        mPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurrentIndex == 0) {
+                    mCurrentIndex = mQuestionBank.length;
+                } else {
+                    mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
+                    updateQuestion();
+                }
+            }
+        });
+
         updateQuestion();
     }
 
@@ -86,7 +100,7 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             messageResId = R.string.incorrect_toast;
         }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
 }
