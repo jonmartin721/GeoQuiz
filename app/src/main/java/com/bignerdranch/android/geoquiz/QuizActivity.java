@@ -16,14 +16,17 @@ public class QuizActivity extends AppCompatActivity {
 
     //global variables
     private Question[] mQuestionBank = new Question[]{
-            new Question(R.string.question_australia, true),
-            new Question(R.string.question_oceans, true),
-            new Question(R.string.question_mideast, false),
-            new Question(R.string.question_africa, false),
-            new Question(R.string.question_americas, true),
-            new Question(R.string.question_asia, true),
+            new Question(R.string.question_australia, true, 0),
+            new Question(R.string.question_oceans, true, 1),
+            new Question(R.string.question_mideast, false, 2),
+            new Question(R.string.question_africa, false, 3),
+            new Question(R.string.question_americas, true, 4),
+            new Question(R.string.question_asia, true, 5),
     };
     private int mCurrentIndex = 0;
+    private int numCorrect = 0;
+    private int[] answeredArray = {0,0,0,0,0,0};
+    private int numAnswered = 0;
     private TextView mQuestionTextView;
 
     @Override
@@ -106,22 +109,48 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy() called");
     }
 
-    //this updates the questions when the next button is pressed
+    //this updates the questions and buttons when the next button is pressed
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
+        Button mTrueButton = findViewById(R.id.true_button);
+        Button mFalseButton = findViewById(R.id.false_button);
+
+        //if the question has already been answered, disable the true and false buttons
+        if (answeredArray[mCurrentIndex] == 1) {
+            mFalseButton.setEnabled(false);
+            mTrueButton.setEnabled(false);
+        } else {
+            mTrueButton.setEnabled(true);
+            mFalseButton.setEnabled(true);
+        }
     }
 
     private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
-        int messageResId;
+        numAnswered ++;
 
+        //if the user has answered the question, disable the buttons
+        Button mTrueButton = findViewById(R.id.true_button);
+        Button mFalseButton = findViewById(R.id.false_button);
+        mTrueButton.setEnabled(false);
+        mFalseButton.setEnabled(false);
+
+
+        int messageResId;
+        answeredArray[mCurrentIndex] = 1;
         if (userPressedTrue == answerIsTrue) {
             messageResId = R.string.correct_toast;
+            numCorrect ++;
         } else {
             messageResId = R.string.incorrect_toast;
         }
         Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+        if (numAnswered == 6) {
+            float percentCorrect = ((float) numCorrect / 6) * 100;
+            String percentMessage = "You got " + numCorrect + " right, that's " + percentCorrect + "% correct!";
+            Toast.makeText(this, percentMessage, Toast.LENGTH_LONG).show();
+        }
     }
 
 
