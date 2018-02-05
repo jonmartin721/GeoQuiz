@@ -32,6 +32,7 @@ public class QuizActivity extends AppCompatActivity {
         Button mTrueButton;
         Button mFalseButton;
         Button mNextButton;
+        Button mCheatButton;
 
 
         super.onCreate(savedInstanceState);
@@ -71,6 +72,16 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
+
+        mCheatButton = findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start CheatActivity
+            }
+        });
+
+
 
         updateQuestion();
     }
