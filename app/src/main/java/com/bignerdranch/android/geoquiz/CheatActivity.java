@@ -15,7 +15,6 @@ public class CheatActivity extends AppCompatActivity {
     private static final String EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown";
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
-    private Button mShowAnswerButton;
 
 
     public static Intent newIntent(Context packageContext, boolean answerIsTrue) {
@@ -33,6 +32,8 @@ public class CheatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Button mShowAnswerButton;
+
         setContentView(R.layout.activity_cheat);
 
         //pull data from that extra
@@ -58,7 +59,7 @@ public class CheatActivity extends AppCompatActivity {
 
     private void setAnswerShownResult(boolean isAnswerShown) {
         Intent data = new Intent();
-        data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
+        Intent intent = data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
         setResult(RESULT_OK, data);
 
 
