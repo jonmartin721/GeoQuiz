@@ -74,8 +74,10 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                questionsCheated[mCurrentIndex] = mIsCheater;
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                mIsCheater = false;
+                mIsCheater = questionsCheated[mCurrentIndex];
                 updateQuestion();
             }
         });
@@ -107,7 +109,6 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             mIsCheater = CheatActivity.wasAnswerShown(data);
-            questionsCheated[mCurrentIndex] = mIsCheater;
 
         }
     }
@@ -130,7 +131,6 @@ public class QuizActivity extends AppCompatActivity {
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
         savedInstanceState.putBoolean(CHEAT_VALUE, mIsCheater);
-        questionsCheated[mCurrentIndex] = mIsCheater;
     }
 
     @Override
