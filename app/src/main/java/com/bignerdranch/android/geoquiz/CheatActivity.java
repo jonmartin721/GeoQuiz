@@ -41,6 +41,7 @@ public class CheatActivity extends AppCompatActivity {
         //pull data from that extra
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
+        //see if we saved that the user is a cheater
         if (savedInstanceState != null) {
             mIsCheater = savedInstanceState.getBoolean(CHEAT_VALUE, false);
             setAnswerShownResult(true);
@@ -65,9 +66,13 @@ public class CheatActivity extends AppCompatActivity {
 
     }
 
+
+    //what to do if the application state changes or is saved
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
+
+        //put if the user was a cheater or not in this
         savedInstanceState.putBoolean(CHEAT_VALUE, mIsCheater);
     }
 

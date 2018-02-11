@@ -30,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
     private int mCurrentIndex = 0;
     private boolean mIsCheater;
     private TextView mQuestionTextView;
+    private boolean[] questionsCheated = new boolean[6];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,6 @@ public class QuizActivity extends AppCompatActivity {
         });
 
 
-
         updateQuestion();
     }
 
@@ -107,11 +107,13 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             mIsCheater = CheatActivity.wasAnswerShown(data);
+            questionsCheated[mCurrentIndex] = mIsCheater;
+
         }
     }
 
     @Override
-    public  void onResume() {
+    public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume() called");
     }
@@ -128,6 +130,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
         savedInstanceState.putBoolean(CHEAT_VALUE, mIsCheater);
+        questionsCheated[mCurrentIndex] = mIsCheater;
     }
 
     @Override
@@ -154,6 +157,8 @@ public class QuizActivity extends AppCompatActivity {
 
         if (mIsCheater) {
             messageResId = R.string.judgement_toast;
+            questionsCheated[mCurrentIndex] = mIsCheater;
+
         } else {
 
             if (userPressedTrue == answerIsTrue) {
@@ -162,10 +167,8 @@ public class QuizActivity extends AppCompatActivity {
                 messageResId = R.string.incorrect_toast;
             }
         }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
-
-
 
 
 }
