@@ -27,6 +27,7 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_asia, true),
     };
     private int mCurrentIndex = 0;
+    private int timesCheated = 0;
     private boolean mIsCheater;
     private TextView mQuestionTextView;
 
@@ -36,8 +37,7 @@ public class QuizActivity extends AppCompatActivity {
         Button mTrueButton;
         Button mFalseButton;
         Button mNextButton;
-        Button mCheatButton;
-
+        final Button mCheatButton;
 
         super.onCreate(savedInstanceState);
         Log.d(TAG, "OnCreate(Bundle) called");
@@ -71,14 +71,19 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mIsCheater)
+                    timesCheated++;
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mIsCheater = false;
                 updateQuestion();
+
             }
         });
 
         mCheatButton = findViewById(R.id.cheat_button);
-        mCheatButton.setOnClickListener(new View.OnClickListener() {
+        if (timesCheated >= 3)
+            mCheatButton.setEnabled(false);
+            mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Start CheatActivity
@@ -87,7 +92,6 @@ public class QuizActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
             }
         });
-
 
 
         updateQuestion();
@@ -105,11 +109,12 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             mIsCheater = CheatActivity.wasAnswerShown(data);
+
         }
     }
 
     @Override
-    public  void onResume() {
+    public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume() called");
     }
@@ -150,6 +155,7 @@ public class QuizActivity extends AppCompatActivity {
         int messageResId;
 
         if (mIsCheater) {
+
             messageResId = R.string.judgement_toast;
         } else {
 
@@ -159,10 +165,8 @@ public class QuizActivity extends AppCompatActivity {
                 messageResId = R.string.incorrect_toast;
             }
         }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
-
-
 
 
 }
