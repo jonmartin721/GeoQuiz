@@ -30,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
     private int timesCheated = 0;
     private boolean mIsCheater;
     private TextView mQuestionTextView;
+    private TextView mTimesCheatedTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         mQuestionTextView = findViewById(R.id.question_text_view);
+        mTimesCheatedTextView = findViewById(R.id.times_cheated_label);
 
         mTrueButton = findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +73,7 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mIsCheater)
-                    timesCheated++;
+
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mIsCheater = false;
                 updateQuestion();
@@ -81,8 +82,7 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         mCheatButton = findViewById(R.id.cheat_button);
-        if (timesCheated >= 3)
-            mCheatButton.setEnabled(false);
+
             mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +90,7 @@ public class QuizActivity extends AppCompatActivity {
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
                 Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
+
             }
         });
 
@@ -108,8 +109,12 @@ public class QuizActivity extends AppCompatActivity {
                 return;
             }
 
-            mIsCheater = CheatActivity.wasAnswerShown(data);
 
+            mIsCheater = CheatActivity.wasAnswerShown(data);
+            if (mIsCheater) {
+                timesCheated++;
+                updateQuestion();
+            }
         }
     }
 
@@ -148,6 +153,12 @@ public class QuizActivity extends AppCompatActivity {
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
+        mTimesCheatedTextView.setText("Times cheated: " + timesCheated);
+        if (timesCheated >= 3) {
+            Button mCheatButton = findViewById(R.id.cheat_button);
+            mCheatButton.setEnabled(false);
+        }
+
     }
 
     private void checkAnswer(boolean userPressedTrue) {
